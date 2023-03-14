@@ -1,6 +1,6 @@
 ﻿namespace PleOps.Tripo.Traveller;
 
-public class WordeeTravel
+public class WorldeeTravel
 {
     public int Id { get; set; }
     public string state { get; set; }

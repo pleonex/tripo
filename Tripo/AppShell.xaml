@@ -11,11 +11,12 @@
         <ShellContent
             Title="Home"
             ContentTemplate="{DataTemplate local:MainPage}"
+            IsVisible="False"
             Route="MainPage" />
 
         <ShellContent
             Title="Travel"
-            ContentTemplate="{DataTemplate local_traveller:WordeeView}"
+            ContentTemplate="{DataTemplate local_traveller:WorldeeView}"
             Route="TravelPage" />
     </TabBar>
 
