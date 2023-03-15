@@ -1,4 +1,6 @@
-﻿namespace PleOps.Tripo.Traveller;
+﻿#nullable disable
+
+namespace PleOps.Tripo.Integrations;
 
 public class WorldeeTravel
 {

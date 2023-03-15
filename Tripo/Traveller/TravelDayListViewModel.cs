@@ -4,18 +4,19 @@ using System.Text.Json;
 
 namespace PleOps.Tripo.Traveller;
 
-public class WorldeeViewModel : ObservableObject
+public class TravelDayListViewModel : ObservableObject
 {
-    private WorldeeTravel travel;
+    private Travel? travel;
 
-    public WorldeeViewModel()
+    public TravelDayListViewModel()
     {
         LoadTravelCommand = new AsyncRelayCommand(PickLoadTravelAsync);
         LoadLastTravelCommand = new RelayCommand(LoadLastTravel);
+        LoadWorldeeTravelCommand = new AsyncRelayCommand(PickLoadWorldeeTravelAsync);
         NoteSelectedCommand = new RelayCommand<int>(NoteSelected);
     }
 
-    public WorldeeTravel Travel
+    public Travel? Travel
     {
         get => travel;
         private set => SetProperty(ref travel, value);
@@ -24,6 +25,8 @@ public class WorldeeViewModel : ObservableObject
     public IAsyncRelayCommand LoadTravelCommand { get; }
     
     public IRelayCommand LoadLastTravelCommand { get; }
+    
+    public IAsyncRelayCommand LoadWorldeeTravelCommand { get; }
 
     public IRelayCommand<int> NoteSelectedCommand { get; }
 
@@ -35,12 +38,8 @@ public class WorldeeViewModel : ObservableObject
             return;
         }
         
-        
-        var travel = LoadTravel(lastTravelFile);
-        if (travel is not null)
-        {
-            Travel = travel;
-        }
+        var travel = TravelFactory.LoadJson(lastTravelFile);
+        Travel = travel;
     }
     
     private async Task PickLoadTravelAsync()
@@ -50,11 +49,26 @@ public class WorldeeViewModel : ObservableObject
             return;
         }
 
-        var travel = await LoadTravelAsync(selectedFile.FullPath).ConfigureAwait(false);
-        if (travel is not null) {
-            Preferences.Default.Set("last_travel_file", selectedFile.FullPath);
-            Travel = travel;
+        var travel = await TravelFactory.LoadJsonAsync(selectedFile.FullPath).ConfigureAwait(false);
+        Preferences.Default.Set("last_travel_file", selectedFile.FullPath);
+        Travel = travel;
+    }
+
+    private async Task PickLoadWorldeeTravelAsync()
+    {
+        var selectedFile = await PickFileAsync();
+        if (selectedFile is null) {
+            return;
         }
+
+        var travel = await TravelFactory.LoadWorldeeJsonAsync(selectedFile.FullPath).ConfigureAwait(false);
+
+        string filename = "converted-" + DateTime.Now.ToString("yyyy-MM-dd") + ".json";
+        string lastFile = Path.Combine(FileSystem.AppDataDirectory, filename);
+        await TravelFactory.SaveJsonAsync(travel, lastFile);
+        
+        Preferences.Default.Set("last_travel_file", lastFile);
+        Travel = travel;
     }
 
     private async Task<FileResult?> PickFileAsync()
@@ -79,33 +93,7 @@ public class WorldeeViewModel : ObservableObject
             return null;
         }
     }
-
-    private async Task<WorldeeTravel?> LoadTravelAsync(string path)
-    {
-        try
-        {
-            await using var jsonStream = File.OpenRead(path);
-            return await JsonSerializer.DeserializeAsync<WorldeeTravel>(jsonStream).ConfigureAwait(false);
-        }
-        catch (Exception)
-        {
-            return null;
-        }
-    }
     
-    private WorldeeTravel? LoadTravel(string path)
-    {
-        try
-        {
-            using var jsonStream = File.OpenRead(path);
-            return JsonSerializer.Deserialize<WorldeeTravel>(jsonStream);
-        }
-        catch (Exception)
-        {
-            return null;
-        }
-    }
-
     private void NoteSelected(int id)
     {
     }

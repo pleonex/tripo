@@ -58,7 +58,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <MauiXaml Update="Traveller\WorldeeView.xaml">
+      <MauiXaml Update="Traveller\TravelDayListView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
     </ItemGroup>

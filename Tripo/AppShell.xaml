@@ -16,7 +16,7 @@
 
         <ShellContent
             Title="Travel"
-            ContentTemplate="{DataTemplate local_traveller:WorldeeView}"
+            ContentTemplate="{DataTemplate local_traveller:TravelDayListView}"
             Route="TravelPage" />
     </TabBar>
 
