@@ -9,15 +9,14 @@
 
     <TabBar>
         <ShellContent
-            Title="Home"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            IsVisible="False"
-            Route="MainPage" />
-
-        <ShellContent
             Title="Travel"
             ContentTemplate="{DataTemplate local_traveller:TravelDayListView}"
             Route="TravelPage" />
+        
+        <ShellContent
+            Title="Map"
+            IsVisible="True"
+            Route="MapPage" />
     </TabBar>
 
 </Shell>

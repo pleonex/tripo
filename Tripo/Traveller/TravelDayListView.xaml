@@ -13,27 +13,37 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem 
             Text="Load Worldee travel"
-            Command="{Binding LoadWorldeeTravelCommand}" 
+            Command="{Binding PickLoadWorldeeTravelCommand}" 
             IconImageSource="{FontImage Glyph='W', Color=White, Size=22}"/>
         <ToolbarItem
             Text="Load travel"
-            Command="{Binding LoadTravelCommand}"
+            Command="{Binding PickLoadTravelCommand}"
             IconImageSource="{FontImage Glyph='&#xfa51;', Color=White, FontFamily='SymbolsRegular', Size=22}" />
         <ToolbarItem Text="Add day" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
     </ContentPage.ToolbarItems>
     
     <Grid RowDefinitions="Auto,*">
-        <Label Grid.Row="0"
-            Text="{Binding Travel.Name}"
-            FontSize="14"
-            FontFamily="OpenSansSemibold"
-            HorizontalOptions="Center"
-            Margin="5" />
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+            <Label Grid.Column="0"
+                   Text="{Binding Travel.Name}"
+                   FontSize="14"
+                   FontFamily="OpenSansSemibold"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   Margin="5" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding EditTravelNameCommand}"
+                Text="&#xf6d8;"
+                FontFamily="SymbolsRegular"
+                FontSize="12"
+                TextColor="Black"
+                BackgroundColor="White" />
+        </Grid>
         <CollectionView Grid.Row="1" x:Name="DaysCollection"
                         ItemsSource="{Binding Travel.Days}"
                         Margin="20"
                         SelectionMode="Single"
-                        SelectionChangedCommand="{Binding NoteSelectedCommand}"
                         VerticalScrollBarVisibility="Always">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />

@@ -7,7 +7,7 @@ export JDK11=/home/pleonex/Programs/jdk-11.0.2
 export PATH=$JDK11/bin:$PATH
 
 # .NET 7.0.20X must be installed (Fedora provides 10X only)
-export DOTNET_ROOT=/home/pleonex/Programs/dotnet-sdk-7.0.201-linux-x64
+export DOTNET_ROOT=/home/pleonex/Programs/dotnet-sdk-7.0.202-linux-x64
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 
 # Install workload
