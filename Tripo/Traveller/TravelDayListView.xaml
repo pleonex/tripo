@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModel="clr-namespace:PleOps.Tripo.Traveller"
+             xmlns:traveller="clr-namespace:PleOps.Tripo.Traveller"
              x:Class="PleOps.Tripo.Traveller.TravelDayListView"
              Title="My travel"
              Appearing="OnAppearing">
 
     <ContentPage.BindingContext>
-        <viewModel:TravelDayListViewModel />
+        <traveller:TravelDayListViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
@@ -50,22 +50,8 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame>
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label
-                                    Text="{Binding RelativeDay, StringFormat='Day {0}'}"
-                                    FontAttributes="Bold"
-                                    FontSize="12"
-                                    Margin="0,0,5,0" />
-                                <Label
-                                    Text="{Binding Date, StringFormat='{}{0:m}'}"
-                                    FontAttributes="Italic"
-                                    FontSize="12" />
-                            </StackLayout>
-                            <Label Text="{Binding Description}" FontSize="14" />
-                        </StackLayout>
-                    </Frame>
+                    <traveller:TravelDayOverviewCardView
+                        BindingContext="{Binding Source={RelativeSource Self}, Path=SelectedItem}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

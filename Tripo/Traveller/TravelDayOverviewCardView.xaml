@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:PleOps.Tripo.Traveller"
+             x:Class="PleOps.Tripo.Traveller.TravelDayOverviewCardView">
+    <ContentView.BindingContext>
+        <viewModel:TravelDay />
+    </ContentView.BindingContext>
+    
+    <Frame>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    Text="{Binding RelativeDay, StringFormat='Day {0}'}"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    Margin="0,0,5,0" />
+                <Label
+                    Text="{Binding Date, StringFormat='{}{0:m}'}"
+                    FontAttributes="Italic"
+                    FontSize="12" />
+            </StackLayout>
+            <Label Text="{Binding Description}" FontSize="14" />
+        </StackLayout>
+    </Frame>
+</ContentView>
