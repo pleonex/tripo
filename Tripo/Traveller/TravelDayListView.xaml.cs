@@ -55,4 +55,9 @@ public partial class TravelDayListView : ContentPage
 			"New travel name",
 			initialValue: ViewModel.Travel.Name);
 	}
+
+	private void OnNavigatedTo(object? sender, NavigatedToEventArgs e)
+	{
+		daysCollection.SelectedItem = null;
+	}
 }

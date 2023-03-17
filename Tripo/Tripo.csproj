@@ -49,6 +49,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Pages\Travel\" />
       <Folder Include="Resources\Images\" />
     </ItemGroup>
 

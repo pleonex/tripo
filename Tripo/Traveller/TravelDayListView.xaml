@@ -4,7 +4,8 @@
              xmlns:traveller="clr-namespace:PleOps.Tripo.Traveller"
              x:Class="PleOps.Tripo.Traveller.TravelDayListView"
              Title="My travel"
-             Appearing="OnAppearing">
+             Appearing="OnAppearing"
+             NavigatedTo="OnNavigatedTo">
 
     <ContentPage.BindingContext>
         <traveller:TravelDayListViewModel />
@@ -36,15 +37,20 @@
                 Command="{Binding EditTravelNameCommand}"
                 Text="&#xf6d8;"
                 FontFamily="SymbolsRegular"
-                FontSize="12"
-                TextColor="Black"
-                BackgroundColor="White" />
+                FontSize="14"
+                BackgroundColor="Transparent" />
         </Grid>
-        <CollectionView Grid.Row="1" x:Name="DaysCollection"
-                        ItemsSource="{Binding Travel.Days}"
-                        Margin="20"
-                        SelectionMode="Single"
-                        VerticalScrollBarVisibility="Always">
+        <CollectionView
+            Grid.Row="1"
+            x:Name="daysCollection"
+            x:FieldModifier="internal"
+            ItemsSource="{Binding Days}"
+            Margin="20"
+            SelectionMode="Single"
+            SelectionChangedCommand="{Binding DaySelectedCommand}"
+            SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+            VerticalScrollBarVisibility="Always">
+            
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
             </CollectionView.ItemsLayout>

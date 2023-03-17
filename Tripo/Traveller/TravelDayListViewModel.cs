@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PleOps.Tripo.Mvvm;
 
@@ -10,6 +11,8 @@ public partial class TravelDayListViewModel : ObservableObject
     
     [ObservableProperty]
     private Travel? travel;
+
+    public ObservableCollection<TravelDayViewModel> Days { get; } = new();
 
     public AsyncInteraction<Exception, bool> DisplayException { get; } = new();
 
@@ -91,10 +94,23 @@ public partial class TravelDayListViewModel : ObservableObject
             OnPropertyChanged(nameof(Travel));
         }
     }
+
+    [RelayCommand]
+    private async Task NewDayAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(TravelDayView));
+    }
     
     [RelayCommand]
-    private void DaySelected(TravelDay day)
+    private async Task DaySelectedAsync(TravelDayViewModel day)
     {
+        if (day is null)
+        {
+            return;
+        }
+        
+        var args = new Dictionary<string, object> { { "Day", day } };
+        await Shell.Current.GoToAsync(nameof(TravelDayView), args);
     }
 
     private void UpdateLoadedTravel(string path, Travel travel)
@@ -103,5 +119,12 @@ public partial class TravelDayListViewModel : ObservableObject
         Preferences.Default.Set("last_travel_file", path);
         
         Travel = travel;
+        
+        Days.Clear();
+        var dayViewModels = travel.Days.Select(x => new TravelDayViewModel(x));
+        foreach (var day in dayViewModels)
+        {
+            Days.Add(day);
+        }
     }
 }
