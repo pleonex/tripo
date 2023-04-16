@@ -1,4 +1,6 @@
-﻿namespace PleOps.Tripo;
+﻿using SkiaSharp.Views.Maui.Controls.Hosting;
+
+namespace PleOps.Tripo;
 
 public static class MauiProgram
 {
@@ -7,6 +9,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseSkiaSharp(true) // for Mapsui
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -39,7 +39,7 @@ public class WorldeeMapper
         for (int i = 0; i < worldeeTravel.days.Length; i++)
         {
             var worldeeDay = worldeeTravel.days[i];
-            var day = MapDay(worldeeDay, i + 1);
+            var day = MapDay(worldeeDay, i);
             travel.Days.Add(day);
         }
 

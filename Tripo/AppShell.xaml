@@ -15,7 +15,8 @@
         
         <ShellContent
             Title="Map"
-            IsVisible="True" />
+            ContentTemplate="{DataTemplate local_traveller:TravelMapView}"
+            Route="MapPage" />
     </TabBar>
 
 </Shell>

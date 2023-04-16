@@ -36,7 +36,7 @@ public class TravelDay
 
 public class Accomodation // add to global and set start/end? then how to transport? link with ID?
 {
-    public Location Location { get; set; } = new();
+    public Location? Location { get; set; }
 
     public Transportation Transportation { get; set; } = new();
 
@@ -53,7 +53,7 @@ public class Activity
 
     public string Description { get; set; } = string.Empty;
 
-    public Location Location { get; set; } = new(); // aprox, optional for plane?
+    public Location? Location { get; set; }
 
     public Transportation Transportation { get; set; } = new(); // global or define per step
 

@@ -26,7 +26,7 @@ public partial class TravelDayViewModel : ObservableObject, IQueryAttributable
 
     public DateTime Date => Day.Date;
 
-    public int RelativeDay => Day.RelativeDay;
+    public int RelativeDay => Day.RelativeDay + 1;
 
     public ObservableCollection<Activity> Activities { get; private set; }
     
