@@ -5,6 +5,8 @@ namespace PleOps.Tripo.Traveller;
 
 public static class TravelFactory
 {
+    private static WorldeeMapper mapper = new WorldeeMapper();
+
     public static async Task<Travel> LoadJsonAsync(string path)
     {
         await using var jsonStream = File.OpenRead(path);
@@ -30,7 +32,7 @@ public static class TravelFactory
         await using var jsonStream = File.OpenRead(path);
         var worldee = await JsonSerializer.DeserializeAsync<WorldeeTravel>(jsonStream).ConfigureAwait(false) 
                       ?? throw new FormatException("Cannot deserialize file");
-        
-        return WorldeeMapper.Map(worldee);
+
+        return mapper.Map(worldee);
     }
 }

@@ -118,13 +118,16 @@ public partial class TravelDayListViewModel : ObservableObject
         travelPath = path;
         Preferences.Default.Set("last_travel_file", path);
         
-        Travel = travel;
-        
-        Days.Clear();
-        var dayViewModels = travel.Days.Select(x => new TravelDayViewModel(x));
-        foreach (var day in dayViewModels)
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            Days.Add(day);
-        }
+            Travel = travel;
+
+            Days.Clear();
+            var dayViewModels = travel.Days.Select(x => new TravelDayViewModel(x));
+            foreach (var day in dayViewModels)
+            {
+                Days.Add(day);
+            }
+        });
     }
 }

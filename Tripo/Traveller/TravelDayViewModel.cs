@@ -3,19 +3,24 @@ using System.Collections.ObjectModel;
 
 namespace PleOps.Tripo.Traveller;
 
-public class TravelDayViewModel : ObservableObject, IQueryAttributable
+public partial class TravelDayViewModel : ObservableObject, IQueryAttributable
 {
+    [ObservableProperty]
+    private TravelDay day;
+
     public TravelDayViewModel()
     {
         Day = new TravelDay();
+        Activities = new ObservableCollection<Activity>();
     }
 
     public TravelDayViewModel(TravelDay day)
     {
         Day = day;
+        Activities = new ObservableCollection<Activity>(day.Activities);
     }
     
-    public TravelDay Day { get; private set; }
+    public Accomodation Accomodation => Day.Accomodation;
     
     public string Description => Day.Description;
 
@@ -27,7 +32,7 @@ public class TravelDayViewModel : ObservableObject, IQueryAttributable
     
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if (query.TryGetValue("Day", out object dayObj) && dayObj is TravelDayViewModel dayVm)
+        if (query.TryGetValue("Day", out object? dayObj) && dayObj is TravelDayViewModel dayVm)
         {
             Day = dayVm.Day;
             Activities = new ObservableCollection<Activity>(Day.Activities);
@@ -41,5 +46,6 @@ public class TravelDayViewModel : ObservableObject, IQueryAttributable
         OnPropertyChanged(nameof(Date));
         OnPropertyChanged(nameof(RelativeDay));
         OnPropertyChanged(nameof(Activities));
+        OnPropertyChanged(nameof(Accomodation));
     }
 }

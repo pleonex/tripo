@@ -129,7 +129,7 @@ public class Translate
 public class Additional1
 {
     public bool highlight { get; set; }
-    public object parkingPlaceId { get; set; }
+    public string parkingPlaceId { get; set; }
     public string physicalDemands { get; set; }
     public object[] priceList { get; set; }
 }
@@ -179,14 +179,7 @@ public class Additional2
     public bool highlight { get; set; }
     public string parkingPlaceId { get; set; }
     public string physicalDemands { get; set; }
-    public Pricelist[] priceList { get; set; }
-}
-
-public class Pricelist
-{
-    public string name { get; set; }
-    public string price { get; set; }
-    public string currency { get; set; }
+    public PriceList[] priceList { get; set; }
 }
 
 public class Stop1
@@ -220,10 +213,10 @@ public class Additional3
     public bool highlight { get; set; }
     public object parkingPlaceId { get; set; }
     public string physicalDemands { get; set; }
-    public Pricelist1[] priceList { get; set; }
+    public PriceList[] priceList { get; set; }
 }
 
-public class Pricelist1
+public class PriceList
 {
     public string name { get; set; }
     public string price { get; set; }
@@ -313,14 +306,7 @@ public class Translate4
 public class Additional4
 {
     public string physicalDemands { get; set; }
-    public Pricelist2[] priceList { get; set; }
-}
-
-public class Pricelist2
-{
-    public string name { get; set; }
-    public string price { get; set; }
-    public string currency { get; set; }
+    public PriceList[] priceList { get; set; }
 }
 
 public class Stopplace

@@ -11,7 +11,7 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <Grid RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto,*,Auto">
             <Label Grid.Row="0"
                    Text="{Binding Description}"
                    TextType="Html"
@@ -23,17 +23,60 @@
                             ItemsSource="{Binding Activities}">
 
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <!--<Border StrokeThickness="2">-->
-                            <Label Text="{Binding Description}" TextType="Html" Margin="5" />
-                        <!--</Border>-->
+                        <Border StrokeThickness="2">
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+                                <HorizontalStackLayout Grid.Row="0" Spacing="5">
+                                    <Label Text="{Binding Type,StringFormat='[{0}]'}" FontAttributes="Italic" FontSize="12" VerticalOptions="Center" />
+                                    <Label Text="{Binding Location.Address}" FontAttributes="Bold" FontSize="16" />
+                                </HorizontalStackLayout>
+                                <StackLayout Grid.Row="1" Orientation="Horizontal" Spacing="5">
+                                    <Label Text="{Binding Transportation.Kind, StringFormat='Type: {0}'}" FontSize="12" FontAttributes="Italic" />
+                                    <Label Text="{Binding Transportation.Distance, StringFormat='Distance: {0} m'}" FontSize="12" FontAttributes="Italic" />
+                                    <Label Text="{Binding Transportation.Time, StringFormat='Time: {0}'}" FontSize="12" FontAttributes="Italic" />
+                                    <Label Text="{Binding Transportation.Intensity,StringFormat='Effort: {0}'}" FontSize="12" FontAttributes="Italic" />
+                                </StackLayout>
+                                <BoxView Grid.Row="2" Color="Gray" HeightRequest="2" HorizontalOptions="Fill" />
+                                <Label Grid.Row="3" Text="{Binding Description}" TextType="Html" Margin="5" />
+
+                                <ListView Grid.Row="4" ItemsSource="{Binding Steps}" SelectionMode="None" >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <StackLayout>
+                                                    <BoxView Color="Blue" HeightRequest="2" HorizontalOptions="Fill" />
+                                                    <Label Text="{Binding Location.Address}" />
+                                                    <Label Text="{Binding Description}" TextType="Html" />
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <Border Grid.Row="2" StrokeThickness="2" Margin="5">
+                <StackLayout>
+                    <Label Text="Accomodation:" />
+                    <Label Text="{Binding Accomodation.Location.Address}" />
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <Label Text="{Binding Accomodation.Transportation.Kind, StringFormat='Type: {0}'}" FontSize="12" FontAttributes="Italic" />
+                        <Label Text="{Binding Accomodation.Transportation.Distance, StringFormat='Distance: {0} m'}" FontSize="12" FontAttributes="Italic" />
+                        <Label Text="{Binding Accomodation.Transportation.Time, StringFormat='Time: {0}'}" FontSize="12" FontAttributes="Italic" />
+                        <Label Text="{Binding Accomodation.Transportation.Intensity,StringFormat='Effort: {0}'}" FontSize="12" FontAttributes="Italic" />
+                    </StackLayout>
+                    <Label Text="{Binding Accomodation.Transportation.Parking.Address, StringFormat='Parking: {0}'}" FontSize="12" FontAttributes="Italic" />
+                    <BoxView Color="Gray" HeightRequest="2" HorizontalOptions="Fill" />
+                    <Label Text="{Binding Accomodation.Description}" TextType="Html" />
+                </StackLayout>
+            </Border>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
