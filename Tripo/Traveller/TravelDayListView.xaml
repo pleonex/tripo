@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:traveller="clr-namespace:PleOps.Tripo.Traveller"
              x:Class="PleOps.Tripo.Traveller.TravelDayListView"
+             x:DataType="traveller:TravelDayListViewModel"
              Title="{Binding Travel.Name, StringFormat='Travel: {0}'}"
              Appearing="OnAppearing"
              NavigatedTo="OnNavigatedTo">
@@ -20,60 +21,82 @@
             Text="Load travel"
             Command="{Binding PickLoadTravelCommand}"
             IconImageSource="{FontImage Glyph='&#xfa51;', Color=White, FontFamily='SymbolsRegular', Size=22}" />
-        <ToolbarItem Text="Add day" IconImageSource="{FontImage Glyph='+', Color=White, Size=22}" />
+        <ToolbarItem Text="Add day"
+                     IconImageSource="{FontImage Glyph='+', Color=White, Size=22}"
+                     Command="{Binding NewDayCommand}"/>
     </ContentPage.ToolbarItems>
-    
-    <Grid RowDefinitions="Auto,*,Auto">
-        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" RowDefinitions="*,*">
-            <Label Grid.Column="0"
-                   Text="{Binding Travel.Name}"
-                   FontSize="20"
-                   FontFamily="OpenSansSemibold"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"
-                   Margin="5" />
-            <Button
-                Grid.Column="1"
-                Command="{Binding EditTravelNameCommand}"
-                Text="&#xf6d8;"
-                FontFamily="SymbolsRegular"
-                FontSize="22"
-                BackgroundColor="Blue" />
-            <Label Grid.Column="0" Grid.Row="1"
-                   Text="{Binding Travel.Description}"
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" RowDefinitions="*,*,*" Margin="8">
+                <Label Grid.Column="0"
+                       Text="{Binding Travel.Name}"
+                       FontSize="20"
+                       FontFamily="OpenSansSemibold"
+                       HorizontalTextAlignment="Start"
+                       VerticalTextAlignment="Center" />
+                <Button
+                    Grid.Column="1"
+                    IsVisible="False"
+                    Command="{Binding EditTravelNameCommand}"
+                    Text="&#xf6d8;"
+                    FontFamily="SymbolsRegular"
+                    FontSize="22"
+                    BackgroundColor="Blue" />
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Margin="0,4">
+                    <Border
+                        Padding="4"
+                        StrokeShape="RoundRectangle 8"
+                        Stroke="{StaticResource PrimaryBrush}"
+                        BackgroundColor="{StaticResource Secondary}">
+                        <Label
+                            Text="{Binding Days.Count, StringFormat='{}{0} days'}"
+                            FontSize="14"/>
+                    </Border>
+                </HorizontalStackLayout>
+                <Label Grid.Column="0" Grid.Row="2"
+                       Text="{Binding Travel.Description}"
+                       TextType="Html"
+                       FontSize="14"
+                       FontAttributes="Italic"
+                       Margin="0,4,0,0"
+                       />
+            </Grid>
+            <CollectionView
+                Grid.Row="1"
+                x:Name="daysCollection"
+                x:FieldModifier="internal"
+                ItemsSource="{Binding Days}"
+                Margin="8"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding DaySelectedCommand}"
+                SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+            
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="4" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Padding="8"
+                            StrokeShape="RoundRectangle 8"
+                            Stroke="{StaticResource Blue100Accent}">
+                            <traveller:TravelDayOverviewCardView BindingContext="{Binding .}"/>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label Grid.Row="2"
+                    Text="Conclusion:"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    Margin="8"/>
+            <Label Grid.Row="3"
+                   Text="{Binding Travel.Conclusion}"
                    TextType="Html"
                    FontSize="14"
-                   FontAttributes="Italic"
-                   Margin="5,0,5,0"
-                   />
-        </Grid>
-        <CollectionView
-            Grid.Row="1"
-            x:Name="daysCollection"
-            x:FieldModifier="internal"
-            ItemsSource="{Binding Days}"
-            Margin="20"
-            SelectionMode="Single"
-            SelectionChangedCommand="{Binding DaySelectedCommand}"
-            SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
-            VerticalScrollBarVisibility="Always">
-            
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <traveller:TravelDayOverviewCardView
-                        BindingContext="{Binding Source={RelativeSource Self}, Path=SelectedItem}"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <Label Grid.Row="2"
-               Text="{Binding Travel.Conclusion}"
-               TextType="Html"
-               FontSize="14"
-               FontAttributes="Italic"
-               Margin="5" />
-    </Grid>
+                   Margin="5" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
  
