@@ -10,74 +10,113 @@
     <ContentPage.BindingContext>
         <traveller:TravelDayViewModel />
     </ContentPage.BindingContext>
-    
-    <ContentPage.Content>
-        <ScrollView>
-            <VerticalStackLayout>
-                <Label Grid.Row="0"
-                       Text="{Binding Description}"
+
+    <!--
+    The scrollview is a workaround to the lag of CollectionView but it increases the loading time
+    https://github.com/dotnet/maui/issues/17326
+    -->
+    <ScrollView>
+        <CollectionView ItemsSource="{Binding Activities}">
+
+            <CollectionView.Header>
+                <Label Text="{Binding Description}"
                        TextType="Html"
                        HorizontalTextAlignment="Center"
                        FontAttributes="Italic"
-                       Margin="0,5,0,5" />
+                       Margin="0,5" />
+            </CollectionView.Header>
 
-                <CollectionView Grid.Row="1"
-                                ItemsSource="{Binding Activities}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
 
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
-                    </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="traveller:Activity">
+                    <Border StrokeThickness="2">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <Label Text="{Binding Type,StringFormat='[{0}]'}"
+                                       FontAttributes="Italic"
+                                       FontSize="12"
+                                       VerticalOptions="Center" />
+                                <Label Text="{Binding Location.Address}"
+                                       FontAttributes="Bold"
+                                       FontSize="16" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <Label Text="{Binding Transportation.Kind, StringFormat='Type: {0}'}"
+                                       FontSize="12"
+                                       FontAttributes="Italic" />
+                                <Label Text="{Binding Transportation.Distance, StringFormat='Distance: {0} m'}"
+                                       FontSize="12"
+                                       FontAttributes="Italic" />
+                                <Label Text="{Binding Transportation.Time, StringFormat='Time: {0}'}"
+                                       FontSize="12"
+                                       FontAttributes="Italic" />
+                                <Label Text="{Binding Transportation.Intensity,StringFormat='Effort: {0}'}"
+                                       FontSize="12"
+                                       FontAttributes="Italic" />
+                            </HorizontalStackLayout>
+                            <BoxView Color="Gray"
+                                     HeightRequest="2"
+                                     HorizontalOptions="Fill" />
+                            <Label Text="{Binding Description}"
+                                   TextType="Html"
+                                   Margin="5" />
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="traveller:Activity">
-                            <Border StrokeThickness="2">
-                                <VerticalStackLayout>
-                                    <HorizontalStackLayout Spacing="5">
-                                        <Label Text="{Binding Type,StringFormat='[{0}]'}" FontAttributes="Italic" FontSize="12" VerticalOptions="Center" />
-                                        <Label Text="{Binding Location.Address}" FontAttributes="Bold" FontSize="16" />
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout Spacing="5">
-                                        <Label Text="{Binding Transportation.Kind, StringFormat='Type: {0}'}" FontSize="12" FontAttributes="Italic" />
-                                        <Label Text="{Binding Transportation.Distance, StringFormat='Distance: {0} m'}" FontSize="12" FontAttributes="Italic" />
-                                        <Label Text="{Binding Transportation.Time, StringFormat='Time: {0}'}" FontSize="12" FontAttributes="Italic" />
-                                        <Label Text="{Binding Transportation.Intensity,StringFormat='Effort: {0}'}" FontSize="12" FontAttributes="Italic" />
-                                    </HorizontalStackLayout>
-                                    <BoxView Color="Gray" HeightRequest="2" HorizontalOptions="Fill" />
-                                    <Label Text="{Binding Description}" TextType="Html" Margin="5" />
+                            <CollectionView ItemsSource="{Binding Steps}"
+                                            SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="traveller:Step">
+                                        <VerticalStackLayout>
+                                            <BoxView Color="Blue"
+                                                     HeightRequest="2"
+                                                     HorizontalOptions="Fill" />
+                                            <Label Text="{Binding Location.Address}" />
+                                            <Label Text="{Binding Description}"
+                                                   TextType="Html" />
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
 
-                                    <CollectionView ItemsSource="{Binding Steps}" SelectionMode="None" >
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="traveller:Step">
-                                                <VerticalStackLayout>
-                                                    <BoxView Color="Blue" HeightRequest="2" HorizontalOptions="Fill" />
-                                                    <Label Text="{Binding Location.Address}" />
-                                                    <Label Text="{Binding Description}" TextType="Html" />
-                                                </VerticalStackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </VerticalStackLayout>
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
-                <Border Grid.Row="2" StrokeThickness="2" Margin="5">
+            <CollectionView.Footer>
+                <Border Grid.Row="2"
+                        StrokeThickness="2"
+                        Margin="5">
                     <VerticalStackLayout>
                         <Label Text="Accomodation:" />
                         <Label Text="{Binding Accomodation.Location.Address}" />
                         <HorizontalStackLayout Spacing="5">
-                            <Label Text="{Binding Accomodation.Transportation.Kind, StringFormat='Type: {0}'}" FontSize="12" FontAttributes="Italic" />
-                            <Label Text="{Binding Accomodation.Transportation.Distance, StringFormat='Distance: {0} m'}" FontSize="12" FontAttributes="Italic" />
-                            <Label Text="{Binding Accomodation.Transportation.Time, StringFormat='Time: {0}'}" FontSize="12" FontAttributes="Italic" />
-                            <Label Text="{Binding Accomodation.Transportation.Intensity,StringFormat='Effort: {0}'}" FontSize="12" FontAttributes="Italic" />
+                            <Label Text="{Binding Accomodation.Transportation.Kind, StringFormat='Type: {0}'}"
+                                   FontSize="12"
+                                   FontAttributes="Italic" />
+                            <Label Text="{Binding Accomodation.Transportation.Distance, StringFormat='Distance: {0} m'}"
+                                   FontSize="12"
+                                   FontAttributes="Italic" />
+                            <Label Text="{Binding Accomodation.Transportation.Time, StringFormat='Time: {0}'}"
+                                   FontSize="12"
+                                   FontAttributes="Italic" />
+                            <Label Text="{Binding Accomodation.Transportation.Intensity,StringFormat='Effort: {0}'}"
+                                   FontSize="12"
+                                   FontAttributes="Italic" />
                         </HorizontalStackLayout>
-                        <Label Text="{Binding Accomodation.Transportation.Parking.Address, StringFormat='Parking: {0}'}" FontSize="12" FontAttributes="Italic" />
-                        <BoxView Color="Gray" HeightRequest="2" HorizontalOptions="Fill" />
-                        <Label Text="{Binding Accomodation.Description}" TextType="Html" />
+                        <Label Text="{Binding Accomodation.Transportation.Parking.Address, StringFormat='Parking: {0}'}"
+                               FontSize="12"
+                               FontAttributes="Italic" />
+                        <BoxView Color="Gray"
+                                 HeightRequest="2"
+                                 HorizontalOptions="Fill" />
+                        <Label Text="{Binding Accomodation.Description}"
+                               TextType="Html" />
                     </VerticalStackLayout>
                 </Border>
-            </VerticalStackLayout>
-        </ScrollView>
-    </ContentPage.Content>
+            </CollectionView.Footer>
+        </CollectionView>
+    </ScrollView>
 </ContentPage>

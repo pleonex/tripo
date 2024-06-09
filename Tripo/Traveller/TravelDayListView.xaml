@@ -13,90 +13,84 @@
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem 
-            Text="Load Worldee travel"
-            Command="{Binding PickLoadWorldeeTravelCommand}" 
-            IconImageSource="{FontImage Glyph='W', Color=White, Size=22}"/>
-        <ToolbarItem
-            Text="Load travel"
-            Command="{Binding PickLoadTravelCommand}"
-            IconImageSource="{FontImage Glyph='&#xfa51;', Color=White, FontFamily='SymbolsRegular', Size=22}" />
+        <ToolbarItem Text="Load Worldee travel"
+                     Command="{Binding PickLoadWorldeeTravelCommand}"
+                     IconImageSource="{FontImage Glyph='W', Color=White, Size=22}" />
+        <ToolbarItem Text="Load travel"
+                     Command="{Binding PickLoadTravelCommand}"
+                     IconImageSource="{FontImage Glyph='&#xfa51;', Color=White, FontFamily='SymbolsRegular', Size=22}" />
         <ToolbarItem Text="Add day"
                      IconImageSource="{FontImage Glyph='+', Color=White, Size=22}"
-                     Command="{Binding NewDayCommand}"/>
+                     Command="{Binding NewDayCommand}" />
     </ContentPage.ToolbarItems>
 
+    <!-- 
+    The scrollview is a workaround to the lag of CollectionView
+    https://github.com/dotnet/maui/issues/17326
+    Probably it fixes the issue by forcing CollectionView to preload all the items
+    so it can provide the full scrolling instead of virtualization.
+    It's not idea but if we don't have many items it should work for now.
+    -->
     <ScrollView>
-        <VerticalStackLayout>
-            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" RowDefinitions="*,*,*" Margin="8">
-                <Label Grid.Column="0"
-                       Text="{Binding Travel.Name}"
-                       FontSize="20"
-                       FontFamily="OpenSansSemibold"
-                       HorizontalTextAlignment="Start"
-                       VerticalTextAlignment="Center" />
-                <Button
-                    Grid.Column="1"
-                    IsVisible="False"
-                    Command="{Binding EditTravelNameCommand}"
-                    Text="&#xf6d8;"
-                    FontFamily="SymbolsRegular"
-                    FontSize="22"
-                    BackgroundColor="Blue" />
-                <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Margin="0,4">
-                    <Border
-                        Padding="4"
-                        StrokeShape="RoundRectangle 8"
-                        Stroke="{StaticResource PrimaryBrush}"
-                        BackgroundColor="{StaticResource Secondary}">
-                        <Label
-                            Text="{Binding Days.Count, StringFormat='{}{0} days'}"
-                            FontSize="14"/>
-                    </Border>
-                </HorizontalStackLayout>
-                <Label Grid.Column="0" Grid.Row="2"
-                       Text="{Binding Travel.Description}"
-                       TextType="Html"
-                       FontSize="14"
-                       FontAttributes="Italic"
-                       Margin="0,4,0,0"
-                       />
-            </Grid>
-            <CollectionView
-                Grid.Row="1"
-                x:Name="daysCollection"
-                x:FieldModifier="internal"
-                ItemsSource="{Binding Days}"
-                Margin="8"
-                SelectionMode="Single"
-                SelectionChangedCommand="{Binding DaySelectedCommand}"
-                SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
-            
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="4" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Padding="8"
+        <CollectionView x:Name="daysCollection"
+                        x:FieldModifier="internal"
+                        ItemsSource="{Binding Days}"
+                        Margin="8"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding DaySelectedCommand}"
+                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+
+            <CollectionView.Header>
+                <VerticalStackLayout>
+                    <Label Text="{Binding Travel.Name}"
+                           FontSize="20"
+                           FontFamily="OpenSansSemibold"
+                           HorizontalTextAlignment="Start"
+                           VerticalTextAlignment="Center" />
+
+                    <HorizontalStackLayout Margin="0,4">
+                        <Border Padding="4"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{StaticResource PrimaryBrush}"
+                                BackgroundColor="{StaticResource Secondary}">
+                            <Label Text="{Binding Days.Count, StringFormat='{}{0} days'}"
+                                   FontSize="14" />
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Travel.Description}"
+                           TextType="Html"
+                           FontSize="14"
+                           FontAttributes="Italic"
+                           Margin="0,4,0,0" />
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="4" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="8"
                             StrokeShape="RoundRectangle 8"
                             Stroke="{StaticResource Blue100Accent}">
-                            <traveller:TravelDayOverviewCardView BindingContext="{Binding .}"/>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Label Grid.Row="2"
-                    Text="Conclusion:"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    Margin="8"/>
-            <Label Grid.Row="3"
-                   Text="{Binding Travel.Conclusion}"
-                   TextType="Html"
-                   FontSize="14"
-                   Margin="5" />
-        </VerticalStackLayout>
+                        <traveller:TravelDayOverviewCardView BindingContext="{Binding .}" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <VerticalStackLayout>
+                    <Label Text="Conclusion:"
+                           FontSize="20"
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding Travel.Conclusion}"
+                           TextType="Html"
+                           FontSize="14" />
+                </VerticalStackLayout>
+            </CollectionView.Footer>
+        </CollectionView>
     </ScrollView>
 </ContentPage>
  

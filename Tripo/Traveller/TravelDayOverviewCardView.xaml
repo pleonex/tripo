@@ -5,40 +5,35 @@
              xmlns:viewModel="clr-namespace:PleOps.Tripo.Traveller"
              x:Class="PleOps.Tripo.Traveller.TravelDayOverviewCardView"
              x:DataType="viewModel:TravelDayViewModel">
+
     <ContentView.BindingContext>
         <viewModel:TravelDayViewModel />
     </ContentView.BindingContext>
-    
-    <StackLayout>
-        <StackLayout Orientation="Horizontal">
-            <Label
-                Text="{Binding RelativeDay, StringFormat='Day {0}'}"
-                FontAttributes="Bold"
-                FontSize="14"
-                Margin="0,0,5,0" />
-            <Label
-                Text="{Binding Date, StringFormat='{}📅 {0:D}'}"
-                FontSize="12"
-                VerticalTextAlignment="End"/>
-        </StackLayout>
-        <Label
-            Text="{Binding Title}"
-            FontSize="14"
-            FontAttributes="Bold"/>
-        <Label
-            Text="{Binding Description}"
-            TextType="Html"
-            FontSize="12" />
-        <StackLayout Orientation="Horizontal" Margin="0,4,0,0">
-            <Border
-                BackgroundColor="{StaticResource Yellow200Accent}"
-                Stroke="{StaticResource Yellow100Accent}"
-                StrokeShape="RoundRectangle 8"
-                Padding="4">
-                <Label
-                    Text="{Binding ActivitiesCount, StringFormat='{}📍 {0}'}"
-                    FontSize="12"/>
+
+    <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="{Binding RelativeDay, StringFormat='Day {0}'}"
+                   FontAttributes="Bold"
+                   FontSize="14"
+                   Margin="0,0,5,0" />
+            <Label Text="{Binding Date, StringFormat='{}📅 {0:D}'}"
+                   FontSize="12"
+                   VerticalTextAlignment="End" />
+        </HorizontalStackLayout>
+        <Label Text="{Binding Title}"
+               FontSize="14"
+               FontAttributes="Bold" />
+        <Label Text="{Binding Description}"
+               TextType="Html"
+               FontSize="12" />
+        <HorizontalStackLayout Margin="0,4,0,0">
+            <Border BackgroundColor="{StaticResource Yellow200Accent}"
+                    Stroke="{StaticResource Yellow100Accent}"
+                    StrokeShape="RoundRectangle 8"
+                    Padding="4">
+                <Label Text="{Binding ActivitiesCount, StringFormat='{}📍 {0}'}"
+                       FontSize="12" />
             </Border>
-        </StackLayout>
-    </StackLayout>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
 </ContentView>
