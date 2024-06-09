@@ -27,6 +27,8 @@ public class TravelDay
 
     public DateTime Date { get; set; } = DateTime.MinValue;
 
+    public string Title { get; set; } = string.Empty;
+
     public string Description { get; set; } = string.Empty;
 
     public Collection<Activity> Activities { get; init; } = new();

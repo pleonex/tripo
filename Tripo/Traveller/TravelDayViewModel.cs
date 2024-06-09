@@ -21,7 +21,9 @@ public partial class TravelDayViewModel : ObservableObject, IQueryAttributable
     }
     
     public Accomodation Accomodation => Day.Accomodation;
-    
+
+    public string Title => Day.Title;
+
     public string Description => Day.Description;
 
     public DateTime Date => Day.Date;
@@ -29,7 +31,9 @@ public partial class TravelDayViewModel : ObservableObject, IQueryAttributable
     public int RelativeDay => Day.RelativeDay + 1;
 
     public ObservableCollection<Activity> Activities { get; private set; }
-    
+
+    public int ActivitiesCount => Activities.Count;
+
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.TryGetValue("Day", out object? dayObj) && dayObj is TravelDayViewModel dayVm)
@@ -42,10 +46,12 @@ public partial class TravelDayViewModel : ObservableObject, IQueryAttributable
 
     private void RefreshProperties()
     {
+        OnPropertyChanged(nameof(Title));
         OnPropertyChanged(nameof(Description));
         OnPropertyChanged(nameof(Date));
         OnPropertyChanged(nameof(RelativeDay));
         OnPropertyChanged(nameof(Activities));
+        OnPropertyChanged(nameof(ActivitiesCount));
         OnPropertyChanged(nameof(Accomodation));
     }
 }

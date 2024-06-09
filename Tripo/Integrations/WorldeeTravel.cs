@@ -91,6 +91,7 @@ public class Toursinfo
 
 public class Day
 {
+    public string title { get; set; }
     public Stop[] stops { get; set; }
     public Sleepstop sleepStop { get; set; }
     public string sleepType { get; set; }

@@ -50,6 +50,7 @@ public class WorldeeMapper
     {
         var day = new TravelDay
         {
+            Title = worldeeDay.title,
             RelativeDay = relativeDay,
             Description = worldeeDay.description,
             Date = startDate + TimeSpan.FromDays(relativeDay),
